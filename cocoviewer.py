@@ -42,7 +42,10 @@ class Data:
         """
         # TODO: predicted bboxes drawing (from models)
         img_id, img_name = self.current_image
-        full_path = os.path.join(self.image_dir, img_name)
+        if not self.image_dir:
+            full_path = os.path.join(img_name)
+        else:
+            full_path = os.path.join(self.image_dir, img_name)
 
         # Get objects and category ids
         objects = [obj for obj in self.instances["annotations"] if obj["image_id"] == img_id]
@@ -800,7 +803,7 @@ def main():
     root = tk.Tk()
     root.title("COCO Viewer")
 
-    if not args.images or not args.annotations:
+    if not args.annotations: #not args.images or
         root.geometry("300x150")  # app size when no data is provided
         messagebox.showwarning("Warning!", "Nothing to show.\nPlease specify a path to the COCO dataset!")
         print_info("Exiting...")
